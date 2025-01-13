@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        /* Global Body Styling */
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container for Login */
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card Background with Gradient and Image */
+        .login-card {
+            background: linear-gradient(to right,rgb(213, 218, 220),rgb(227, 220, 142)); /* Gradient */
+            background-size: cover;
+            background-position: center;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            color: #ffffff;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color:black;
+            font-size: 2em;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 4px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #007BFF;
+        }
+
+        .btn-secondary {
+            background-color: #6C757D;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            display: block;
+            color:black;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .alert {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color:black;
+        }
+
+        a {
+            color: red;
+            text-decoration: none;
+        }
+
+        /* Hover Effects for Buttons */
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+        }
+
+        /* Additional styling for the login form */
+        .form-group input {
+            font-size: 1rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <h1>Welcome to PollVision</h1>
+            {% if user.is_authenticated %}
+                <p>Hello, {{ user.username }}!</p>
+                <a href="{% url 'polls:index' %}" class="btn btn-primary">Go to poll</a>
+                <form method="POST" action="{% url 'polls:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">Logout</button>
+                </form>
+            {% else %}
+                <div style="margin-top: 20px;">
+                    <form method="POST" action="{% url 'polls:login' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <p>Don't have an account? <a href="{% url 'polls:register' %}">Register here</a>.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card text-center">
+   <div class="card-body">
+        <h1>Welcome To PollVision!</h1>
+        <p>This is a Polling Web Application built with Django.</p>
+        <a class="btn btn-dark" href="{% url 'polls:index2' %}">
+           View Available Polls
+        </a>
+        <form method="POST" action="{% url 'polls:logout' %}">
+         {% csrf_token %}
+         <button type="submit" class="btn btn-secondary" style="float:left">Logout</button>
+     </form>
+   </div>
+</div>
+{% endblock %}

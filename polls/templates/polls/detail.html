@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a class="btn btn-secondary" href="{% url 'polls:index' %}">Back To Polls</a>
+
+<h1 class="mb-3 text-center">Which country has the highest peak in the world?</h1>
+
+{% if error_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+    </div>
+{% endif %}
+
+<form method="post" action="{% url 'polls:vote' %}?question_id={{ question.id }}">
+    {% csrf_token %}
+    <ul class="list-group">
+        {% for choice in question.choice_set.all %}
+        <li class="list-group-item">
+            <label>
+                <input type="radio" name="choice" value="{{ choice.id }}">
+                {{ choice.choice_text }}
+            </label>
+        </li>
+        {% endfor %}
+    </ul>
+    <button type="submit" class="btn btn-primary mt-3">Submit Your Vote</button>
+</form>
+{% endblock %}
